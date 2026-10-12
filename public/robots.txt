@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /tienda/
+Disallow: /api/
+Disallow: /entrar
+Disallow: /sin-acceso
+Disallow: /productos
+Disallow: /pedidos
+Disallow: /configuracion

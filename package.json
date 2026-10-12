@@ -1,0 +1,43 @@
+{
+  "name": "mini-shop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node --max-http-header-size=65536 node_modules/next/dist/bin/next dev",
+    "build": "next build",
+    "start": "node --max-http-header-size=65536 node_modules/next/dist/bin/next start",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "conexiones": "node scripts/conexiones.mjs",
+    "migrate": "node scripts/migrate.mjs",
+    "migrate:estado": "node scripts/migrate.mjs --estado",
+    "estado": "node scripts/estado-base.mjs",
+    "alta": "node scripts/alta-tienda.mjs",
+    "modulo": "node scripts/registrar-modulo.mjs",
+    "ticket": "node scripts/dev-ticket.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "^16.3.8",
+    "nodemailer": "^10.1.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.0.0",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "pg": "^8.23.1",
+    "postcss": "^8.5.29",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

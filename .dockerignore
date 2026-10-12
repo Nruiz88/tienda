@@ -1,0 +1,22 @@
+# Lo que NO va en la imagen.
+
+node_modules
+.next
+out
+build
+.git
+.gitignore
+.env*
+*.tsbuildinfo
+next-env.d.ts
+coverage
+npm-debug.log*
+
+# Migraciones y herramientas: corren contra la base REAL desde el host,
+# no dentro del contenedor.
+db
+scripts
+
+# Documentación.
+README.md
+COOLIFY.md

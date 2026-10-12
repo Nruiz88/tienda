@@ -1,0 +1,280 @@
+/* =========================================================
+   La hoja del shop
+   ---------------------------------------------------------
+   Mismos tokens que el inventario, para que el shop y el resto de la
+   plataforma se vean como una sola cosa. Tailwind v4 es CSS primero: no
+   hay `tailwind.config.js`, lo que se configura son variables `@theme`.
+
+   ── LOS NOMBRES QUE ESPERA SHADCN ──
+   Los componentes piden `bg-background`, `text-muted-foreground`,
+   `border-border`… y las variables las define el proyecto. Por eso
+   `--color-accent` (gris de hover) es distinto de `--color-acento` (el
+   azul de la marca): son cosas distintas y no se pueden llamar igual.
+   ========================================================= */
+
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--color-fondo);
+  --color-foreground: var(--color-texto);
+
+  --color-card: var(--color-panel);
+  --color-card-foreground: var(--color-texto);
+
+  --color-popover: var(--color-panel-2);
+  --color-popover-foreground: var(--color-texto);
+
+  --color-primary: var(--color-acento);
+  --color-primary-foreground: var(--color-acento-oscuro);
+
+  --color-accent: var(--color-panel-2);
+  --color-accent-foreground: var(--color-texto);
+
+  --color-secondary: var(--color-panel-2);
+  --color-secondary-foreground: var(--color-claro);
+
+  --color-muted: var(--color-panel-2);
+  --color-muted-foreground: var(--color-apagado);
+
+  --color-destructive: var(--color-mal);
+  --color-destructive-foreground: var(--color-texto);
+
+  --color-success: var(--color-ok);
+  --color-warning: var(--color-aviso);
+
+  --color-border: var(--color-borde);
+  --color-input: var(--color-borde);
+  --color-ring: var(--color-acento);
+
+  --radius: var(--radius-md);
+}
+
+@theme {
+  /* ── Superficies: cuatro escalones y ni uno más. ── */
+  --color-fondo: #0b0f14;
+  --color-panel: #111820;
+  --color-panel-2: #161f2a;
+  --color-hundido: #0d141c;
+
+  --color-borde: #243040;
+  --color-borde-fuerte: #35455a;
+
+  /* ── Texto ── */
+  --color-texto: #e6edf3;
+  --color-claro: #c9d5e2;
+  --color-apagado: #8b9bb0;
+
+  /* ── Semánticos ── */
+  --color-acento: #4da3ff;
+  --color-acento-oscuro: #06121f;
+  --color-ok: #3fb950;
+  --color-mal: #f0616d;
+  --color-aviso: #d29922;
+
+  /* ── Stock ── */
+  --color-stock-bajo: #d29922;
+  --color-stock-agotado: #f0616d;
+
+  /* ── Radios ── */
+  --radius-sm: 0.4rem;
+  --radius-md: 0.6rem;
+  --radius-lg: 0.9rem;
+
+  /* ── El objetivo táctil: se usa con el dedo, en un móvil. ── */
+  --spacing-objetivo: 2.25rem;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Tipografía con carácter para el storefront (marca y titulares). */
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-fondo);
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior-y: none;
+  }
+
+  body > main,
+  body > header + main {
+    flex: 1 0 auto;
+  }
+
+  button,
+  [role="button"],
+  input:not([type="checkbox"]):not([type="radio"]),
+  select {
+    min-height: var(--spacing-objetivo);
+  }
+
+  button[data-compacto],
+  [data-compacto] {
+    min-height: 2rem;
+  }
+
+  table,
+  .cifra,
+  [data-cifra] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 2px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* =========================================================
+   La tabla que se convierte en tarjeta
+   ---------------------------------------------------------
+   Una lista de pedidos se mira en un móvil. Con `overflow-x` la tabla se
+   sale y enseña media columna sin avisar de que hay más. Convertida en
+   tarjeta, cada dato conserva su etiqueta (`data-col`).
+   ========================================================= */
+@media (max-width: 640px) {
+  .tabla-tarjeta thead {
+    display: none;
+  }
+
+  .tabla-tarjeta,
+  .tabla-tarjeta tbody,
+  .tabla-tarjeta tr,
+  .tabla-tarjeta td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabla-tarjeta tr {
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 0;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radius-md);
+    background: var(--color-hundido);
+  }
+
+  .tabla-tarjeta td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0.85rem;
+    text-align: left;
+    border: 0;
+  }
+
+  .tabla-tarjeta td::before {
+    content: attr(data-col);
+    flex: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-apagado);
+  }
+
+  .tabla-tarjeta td[data-col=""]::before {
+    content: none;
+  }
+
+  .tabla-tarjeta td[data-principal] {
+    padding-bottom: 0.5rem;
+  }
+
+  .tabla-tarjeta td[data-principal]::before {
+    content: none;
+  }
+}
+
+@layer base {
+  * {
+    scrollbar-color: var(--color-borde-fuerte) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-borde-fuerte);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+@layer utilities {
+  .transicion {
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .transicion {
+      transition: none;
+    }
+  }
+}
+
+/* =========================================================
+   Tema de la tienda (claro, editorial, tipo ropa)
+   ---------------------------------------------------------
+   El admin usa el tema oscuro de la plataforma. La tienda pública va
+   clara: es lo que se espera de una tienda de ropa —fondo de papel,
+   mucho aire, tipografía con carácter— y deja el producto como
+   protagonista.
+
+   ── POR QUÉ SE HACE ASÍ Y NO CON CLASES NUEVAS ──
+   Se REDEFINEN las variables dentro de `.tienda-tema`. Como todas las
+   utilidades de Tailwind apuntan a `var(--color-*)`, cualquier cosa que
+   cuelgue de este contenedor cambia de golpe. No hay que tocar cada
+   componente ni mantener dos hojas: un solo punto de verdad.
+   ========================================================= */
+.tienda-tema {
+  --color-fondo: #f6f4f0;
+  --color-panel: #ffffff;
+  --color-panel-2: #efebe4;
+  --color-hundido: #e9e4db;
+
+  --color-borde: #e2dcd2;
+  --color-borde-fuerte: #cabfae;
+
+  --color-texto: #1b1916;
+  --color-claro: #43403a;
+  --color-apagado: #7b7469;
+
+  /* El acento de la tienda es el NEGRO: es lo que usan las tiendas de
+     ropa para botones y titulares. Nada de azul. */
+  --color-acento: #1b1916;
+  --color-acento-oscuro: #ffffff;
+
+  --color-ok: #2e7d4f;
+  --color-mal: #b3261e;
+  --color-aviso: #8a6300;
+
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+.tienda-tema * {
+  scrollbar-color: var(--color-borde-fuerte) transparent;
+}
